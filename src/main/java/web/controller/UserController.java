@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequestMapping("/users")
 public class UserController {
 
     @GetMapping(value = "/")
