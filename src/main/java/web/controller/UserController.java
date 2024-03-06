@@ -1,24 +1,49 @@
 package web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import web.dao.UserDao;
+import web.controller.UserController;
+import web.model.User;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
 
-    @GetMapping(value = "/")
-    public String printWelcome(ModelMap model) {
-        List<String> messages = new ArrayList<>();
-        messages.add("Hello!");
-        messages.add("I'm Spring MVC application");
-        messages.add("5.2.0 version by sep'19 ");
-        model.addAttribute("messages", messages);
-        return "index";
+    @Autowired
+    private UserDao userDao;
+
+    @GetMapping
+    public String getAllUsers(Model model) {
+        model.addAttribute("users", userDao.getAll());
+        return "users";
     }
 
+    @GetMapping("/{id}")
+    public String getUserById(@PathVariable Long id, Model model) {
+        User user = userDao.getById(id);
+        model.addAttribute("user", user);
+        return "user";
+    }
+
+    @PostMapping
+    public String addUser(@ModelAttribute("user") User user) {
+        userDao.save(user);
+        return "redirect:/users";
+    }
+
+    @PostMapping("/{id}")
+    public String updateUser(@PathVariable Long id, @ModelAttribute("user") User user) {
+        user.setId(id);
+        userDao.update(user);
+        return "redirect:/users";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userDao.delete(id);
+        return "redirect:/users";
+    }
 }

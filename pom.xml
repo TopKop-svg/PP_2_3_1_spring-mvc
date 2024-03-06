@@ -62,6 +62,19 @@
       <artifactId>thymeleaf-spring5</artifactId>
       <version>3.0.14.RELEASE</version>
     </dependency>
+<!--provided-->
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>1.3.2</version>
+    </dependency>
+<!--provided-->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-dbcp2</artifactId>
+      <version>2.9.0</version>
+    </dependency>
+<!--provided-->
   </dependencies>
 
   <build>
